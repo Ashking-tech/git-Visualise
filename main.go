@@ -111,5 +111,23 @@ func addNewsSliceElementsToFile(filepath string,newRepos []string){
 	existingRepos := ParseFileLinesToSlice(filepath)
 	repos := joinSlices(newRepos,existingRepos)
 	dumpStringSliceToFile(repos,filepath)
-	
+
+}
+
+func ParseFileLinesToSlice(filepath string) []string{
+	f := openFile(filepath)
+	defer f.Close()
+	var lines []string
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan(){
+		lines = append(lines,scanner.Text())
+
+	}
+
+	if err := scanner.Err(); err != nil {
+		if err != io.EOF {
+			panic(err)
+		}
+	}
+	return lines
 }
