@@ -147,3 +147,25 @@ func openFile(filepath string) *os.File {
 	}
 	return f 
 }
+
+func joinSlices(new []string,existing []string) []string {
+	for _,i := range new {
+		if !sliceContains(existing,i){
+			existing = append(existing,i)
+
+		}
+	}
+	return existing
+}
+
+//sliceContains returns true if slice contains value 
+func sliceContains(slice []string, value string)bool {
+	for _, v := range slice {
+		if v == value {
+			return true
+		}
+	} 
+	return false
+}
+
+
