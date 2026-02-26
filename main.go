@@ -50,9 +50,9 @@ func main (){
 // Recursively searches in the subfolders by passing an existing `folders` slice.
 func scanGitFolders(folders []string,folder string) []string {
 
-	folder := strings.TrimSuffix(folder,"/")
+	folder = strings.TrimSuffix(folder,"/")
 	f, err := os.Open(folder)
-	if err := nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -84,4 +84,32 @@ func scanGitFolders(folders []string,folder string) []string {
 		}
 	}
 	return folders
+}
+
+// recursiveScanFolder starts the recursive search of git repositories
+// living in the `folder` subtree
+func recursiveScanFolder(folder string) []string {
+    return scanGitFolders(make([]string, 0), folder)
+}
+
+
+// getDotFilePath returns the dot file for repos list
+// create it and enclosing folder if it doesnt exist
+
+func getDotFilePath() string {
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+
+	}
+
+	dotFile := usr.HomeDir + '/.gogitlocalstats'
+	return dotFile
+}
+
+func addNewsSliceElementsToFile(filepath string,newRepos []string){
+	existingRepos := ParseFileLinesToSlice(filepath)
+	repos := joinSlices(newRepos,existingRepos)
+	dumpStringSliceToFile(repos,filepath)
+	
 }
