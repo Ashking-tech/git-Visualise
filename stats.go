@@ -135,3 +135,25 @@ func sortMapIntoSlices(m map[int]int) []int {
 	sort.Ints(keys)
 	return keys
 }
+
+//buildCols generates a map with rows and columns ready to be printed 
+
+func buildCols(keys []int,commits map[int]int)map[int]column {
+	cols := make(map[int]column)
+	col := column{}
+	for _,k := range keys {
+		week := int(k / 7) 
+		dayinWeek := k % 7
+		if dayinWeek == 0 {
+			col = column{}
+		}
+
+		col = append(col,commits[k])
+		if dayinWeek == 6 {
+			cols[week] = col
+		}
+	}
+	return cols
+}
+
+
