@@ -91,3 +91,28 @@ countDaysSinceDate(date time.Time) int {
 	}
 	return days
 }
+
+
+//calcOffset determines and returns the amount of days passed since the passed 'date'
+func calcOffset()int{
+var offset int 
+weekday := time.Now().weekday()
+switch weekday{
+	case time.Sunday:
+		offset = 7
+	case time.Monday:
+		offset = 6
+	case time.Tuesday:
+		offset = 5
+	case time.Wednesday:
+		offset = 4
+	case time.Thursday:
+		offset = 3
+	case time.Friday:
+		offset = 2
+	case time.Saturday:
+		offset = 1
+
+	}
+	return offset
+}
