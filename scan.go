@@ -111,16 +111,9 @@ func ParseFileLinesToSlice(filepath string) []string {
 }
 
 func openFile(filepath string) *os.File {
-	f, err := os.OpenFile(filepath, os.O_APPEND|os.O_WRONLY, 0755)
+	f, err := os.OpenFile(filepath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0755)
 	if err != nil {
-		if os.IsNotExist(err) {
-			//file doesnt exist
-			newFile, err := os.Create(filepath)
-			if err != nil {
-				panic(err)
-			}
-			return newFile
-		}
+		panic(err)
 	}
 	return f
 }
