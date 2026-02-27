@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -12,33 +11,28 @@ import (
 	"strings"
 )
 
-func scan(folder string){
+func scan(folder string) {
 	print("scan")
 	fmt.Printf("found folders:\n\n")
 	repositories := recursiveScanFolder(folder)
 	filepath := getDotFilePath()
-	addNewsSliceElementsToFile(filepath,repositories)
-	fmt.Printf("\n\nSuccesfully added \n\n")
+	addNewsSliceElementsToFile(filepath, repositories)
+	fmt.Printf("\n\nSuccessfully added \n\n")
 
 }
-
-
-
 
 // stats generates a nice graph of your git contribution
 
-func stats(email string){
+func stats(email string) {
 	print("stats")
 }
-
-
 
 // scanGitFolders returns a list of subfolders of `folder` ending with `.git`.
 // Returns the base folder of the repo, the .git folder parent.
 // Recursively searches in the subfolders by passing an existing `folders` slice.
-func scanGitFolders(folders []string,folder string) []string {
+func scanGitFolders(folders []string, folder string) []string {
 
-	folder = strings.TrimSuffix(folder,"/")
+	folder = strings.TrimSuffix(folder, "/")
 	f, err := os.Open(folder)
 	if err != nil {
 		log.Fatal(err)
@@ -50,25 +44,22 @@ func scanGitFolders(folders []string,folder string) []string {
 		log.Fatal(err)
 	}
 
-
 	var path string
 	for _, file := range files {
-		if file.IsDir(){
-			path := folder + "/" + file.Name()
+		if file.IsDir() {
+			path = folder + "/" + file.Name()
 			if file.Name() == ".git" {
-				path = strings.TrimSuffix(path,"/")
+				path = strings.TrimSuffix(path, "/")
 				fmt.Println(path)
-				folders = append(folders,path)
+				folders = append(folders, path)
 				continue
 			}
 
-
-			if file.Name() == "vendor" || file.Name() == "node_modules"{
+			if file.Name() == "vendor" || file.Name() == "node_modules" {
 				continue
 			}
 
-			folders = scanGitFolders(folders,path)
-			}
+			folders = scanGitFolders(folders, path)
 		}
 	}
 	return folders
@@ -77,9 +68,8 @@ func scanGitFolders(folders []string,folder string) []string {
 // recursiveScanFolder starts the recursive search of git repositories
 // living in the `folder` subtree
 func recursiveScanFolder(folder string) []string {
-    return scanGitFolders(make([]string, 0), folder)
+	return scanGitFolders(make([]string, 0), folder)
 }
-
 
 // getDotFilePath returns the dot file for repos list
 // create it and enclosing folder if it doesnt exist
@@ -95,20 +85,20 @@ func getDotFilePath() string {
 	return dotFile
 }
 
-func addNewsSliceElementsToFile(filepath string,newRepos []string){
+func addNewsSliceElementsToFile(filepath string, newRepos []string) {
 	existingRepos := ParseFileLinesToSlice(filepath)
-	repos := joinSlices(newRepos,existingRepos)
-	dumpStringSliceToFile(repos,filepath)
+	repos := joinSlices(newRepos, existingRepos)
+	dumpStringSliceToFile(repos, filepath)
 
 }
 
-func ParseFileLinesToSlice(filepath string) []string{
+func ParseFileLinesToSlice(filepath string) []string {
 	f := openFile(filepath)
 	defer f.Close()
 	var lines []string
 	scanner := bufio.NewScanner(f)
-	for scanner.Scan(){
-		lines = append(lines,scanner.Text())
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 
 	}
 
@@ -121,44 +111,42 @@ func ParseFileLinesToSlice(filepath string) []string{
 }
 
 func openFile(filepath string) *os.File {
-	f, err := os.OpenFile(filepath,os.O_APPEND | os.O_WRONLY,0755)
+	f, err := os.OpenFile(filepath, os.O_APPEND|os.O_WRONLY, 0755)
 	if err != nil {
-		if os.IsNotExist(err){
+		if os.IsNotExist(err) {
 			//file doesnt exist
-			_,err = os.Create(filepath)
+			newFile, err := os.Create(filepath)
 			if err != nil {
 				panic(err)
 			}
-
-
+			return newFile
 		}
 	}
-	return f 
+	return f
 }
 
-func joinSlices(new []string,existing []string) []string {
-	for _,i := range new {
-		if !sliceContains(existing,i){
-			existing = append(existing,i)
+func joinSlices(new []string, existing []string) []string {
+	for _, i := range new {
+		if !sliceContains(existing, i) {
+			existing = append(existing, i)
 
 		}
 	}
 	return existing
 }
 
-//sliceContains returns true if slice contains value 
-func sliceContains(slice []string, value string)bool {
+// sliceContains returns true if slice contains value
+func sliceContains(slice []string, value string) bool {
 	for _, v := range slice {
 		if v == value {
 			return true
 		}
-	} 
+	}
 	return false
 }
 
-
-//dumpstringslicestofile writes content to file in path "filepath" (overwriting exisitng content )
-func dumpStringSliceToFile(repos []string,filepath string){
-	content := strings.Join(repos,"\n")
-	ioutil.WriteFile(filepath,[]byte(content),0755)
+// dumpstringslicestofile writes content to file in path "filepath" (overwriting exisitng content )
+func dumpStringSliceToFile(repos []string, filepath string) {
+	content := strings.Join(repos, "\n")
+	ioutil.WriteFile(filepath, []byte(content), 0755)
 }

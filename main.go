@@ -1,9 +1,7 @@
-
 package main
 
 import (
 	"flag"
-
 )
 
 func main() {
@@ -18,5 +16,5 @@ func main() {
 		return
 	}
 
-	stats(email)
+	printCommitStats(processRepositories(email))
 }
