@@ -16,7 +16,7 @@ func scan(folder string){
 	print("scan")
 	fmt.Printf("found folders:\n\n")
 	repositories := recursiveScanFolder(folder)
-	filepath := getDotfilePath()
+	filepath := getDotFilePath()
 	addNewsSliceElementsToFile(filepath,repositories)
 	fmt.Printf("\n\nSuccesfully added \n\n")
 
