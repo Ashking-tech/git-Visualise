@@ -116,3 +116,22 @@ switch weekday{
 	}
 	return offset
 }
+
+func printCommitStats(commits map[int]int){
+	keys := sortMapIntoSlices(commits)
+	cols := buildCols(keys, commits)
+	printCells(cols)
+}
+
+
+func sortMapIntoSlices(m map[int]int) []int {
+	// order map
+	// To store the keys in slice in sorted order
+	var keys []int
+	for k := range m {
+		keys = append(keys,k)
+	}
+
+	sort.Ints(keys)
+	return keys
+}
