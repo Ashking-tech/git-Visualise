@@ -14,7 +14,8 @@ curl -L "https://github.com/Ashking-tech/git-Visualise/releases/download/v1.0.0/
 
 Add to PATH if needed:
 ```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ### Alternative (requires sudo)
