@@ -9,7 +9,7 @@ A CLI tool to visualize your Git contribution graph in the terminal.
 ### Quick Install (Linux)
 
 ```bash
-curl -L "https://github.com/Ashking-tech/git-Visualise/releases/download/v1.0.0/git-visualize" -o ~/.local/bin/git-visualize && chmod +x ~/.local/bin/git-visualize
+mkdir -p ~/.local/bin && curl -L "https://github.com/Ashking-tech/git-Visualise/releases/download/v1.0.0/git-visualize" -o ~/.local/bin/git-visualize && chmod +x ~/.local/bin/git-visualize
 ```
 
 Add to PATH if needed:
