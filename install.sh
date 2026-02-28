@@ -1,15 +1,12 @@
 #!/bin/bash
 
-REPO_URL="https://github.com/Ashking-tech/git-Visualise"
 BINARY_NAME="git-visualize"
+REPO_URL="https://github.com/Ashking-tech/git-Visualise"
 
 echo "Installing ${BINARY_NAME}..."
 
-# Get latest release URL
-DOWNLOAD_URL=$(curl -sSL "${REPO_URL}/releases/latest/download/${BINARY_NAME}")
-
-# Download binary
-curl -sSL "${DOWNLOAD_URL}" -o "/tmp/${BINARY_NAME}"
+# Direct download URL from release
+curl -sSL "${REPO_URL}/releases/download/v1.0.0/${BINARY_NAME}" -o "/tmp/${BINARY_NAME}"
 
 # Move to system path
 sudo mv "/tmp/${BINARY_NAME}" "/usr/local/bin/${BINARY_NAME}"
